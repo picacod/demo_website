@@ -1,3 +1,6 @@
+
+
+
 * {
   margin: 0;
   padding: 0;
@@ -13,11 +16,11 @@ body {
 }
 
 .flip-container {
-  perspective: 1000px;
+  perspective: 1500px;
   position: relative;
   height: 100vh;
   width: 100vw;
-
+  overflow: hidden; /* To prevent content overflow during the flip */
 }
 
 
@@ -26,8 +29,8 @@ body {
   height: 100vh;
   position: relative;
   transform-style: preserve-3d;
-  transition: transform 1s ease-in-out, scale 0.8s ease-in-out;
-  /* Smooth transition */
+  transition: transform 1.2s cubic-bezier(0.25, 0.8, 0.25, 1), scale 1.2s cubic-bezier(0.25, 0.8, 0.25, 1); 
+  /* Cubic-bezier creates a smooth flip animation with natural easing */
 }
 .flip-box-front {
   background-image: url(https://img.freepik.com/free-photo/3d-rendering-website-hosting-concept_23-2149484783.jpg?t=st=1727256047~exp=1727259647~hmac=6bdf6b9e7ffa83fd64750b83107541a253f58a678a9ecd7e388bdae0432fcbc7&w=1480);
@@ -40,12 +43,13 @@ body {
   justify-content: flex-start !important;
   align-items: center;
   padding-left: 5%; /* Align content to the left */
+  backface-visibility: hidden; /* Hide the back when rotating */
 }
 .flip-box-back {
   /* background-color: #2ecc71; */
   color: white;
-  transform: rotateX(180deg); /* Keep the flip */
-  width: 100vw; /* Ensure full width */
+  transform: rotateX(180deg); /* Rotate along the Y-axis */
+    width: 100vw; /* Ensure full width */
   height: 100vh; /* Ensure full height */
   display: flex;
   justify-content: center;
@@ -53,31 +57,7 @@ body {
   position: absolute; /* Absolute positioning to ensure it fills the container */
   top: 0; /* Align to the top */
   left: 0; /* Align to the left */
-}
-
-@media screen and (max-width: 480px) {
-
-  .flip-box-front {
-    justify-content: center !important;
-  }
-  /* Content in front of the gradient */
-.flip-box-front-content {
-  max-width: 80% !important;
-
-}
-}
-
-/* Gradient Overlay */
-.flip-box-front::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, rgba(4, 172, 212, 1) 0%, rgba(4, 148, 204, 1) 40%, #0484bc 60%);
-  opacity: 0.85;
-  z-index: 1;
+  backface-visibility: hidden; /* Hide the front when flipped */
 }
 
 /* Content in front of the gradient */
@@ -102,34 +82,34 @@ body {
   justify-content: center;
   align-items: center;
   font-size: 2rem;
-  border: 1px solid #ccc;
+  /* border: 1px solid #ccc; */
   transform-origin: center;
 }
 
 .flip-box-front {
-  background-color: #3498db;
+  /* background-color: #3498db; */
   color: white;
 }
 
 .flip-box-back {
-  background-color: #2ecc71;
+  /* background-color: #2ecc71; */
   color: white;
   transform: rotateX(180deg);
   /* Prepare back side to flip */
 }
 
-/* Shrink and flip */
+
+/* Shrink and flip effect */
 .shrink-flip {
-  transform: rotateX(180deg) scale(0.6);
-  /* Flip with shrink */
+  transform: rotateX(180deg) scale(0.9); /* Flip with slight shrink */
+  transition: transform 1.5s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 /* Expand after flip */
 .expand-flip {
   transform: rotateX(180deg) scale(1);
-  /* Expand after flip */
+  transition: transform 1.5s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoothly expand after flip */
 }
-
 /* Button Styling */
 .lets-talk-button {
   background-color: black;
@@ -145,6 +125,48 @@ body {
 .lets-talk-button:hover {
   background-color: #034c79;
 }
+
+
+@media screen and (max-width: 480px) {
+
+  .flip-box-front {
+    justify-content: start!important;
+    align-items: flex-end;
+    padding-bottom: 150px;
+  }
+  /* Content in front of the gradient */
+.flip-box-front-content {
+  max-width: 80% !important;
+  color: black;
+
+}
+.flip-box-front-content p {
+  color: black;
+  font-size: 1rem;
+}
+.lets-talk-button{
+  padding: 10px 20px;
+  font-size: 1rem;
+}
+}
+
+/* Gradient Overlay */
+/* .flip-box-front::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(4, 172, 212, 1) 0%, rgba(4, 148, 204, 1) 40%, #0484bc 60%);
+  opacity: 0.75;
+  z-index: 1 !important;
+} */
+.carousel-control-prev,
+.carousel-control-next {
+    z-index: 999 !important; /* Make sure the controls are above the overlay */
+}
+
 
 /* Prelaoder */
 #preloader {
@@ -369,7 +391,7 @@ body {
 #hero {
   width: 100%;
   height: 100vh;
-  background: #000;
+  background: #fff;
   overflow: hidden;
   position: relative;
 }
@@ -445,7 +467,7 @@ body {
 
 #hero .carousel-item::before {
   content: "";
-  background-color: rgba(12, 12, 12, 0);
+  background-color: rgba(255, 255, 255, 0);
 }
 
 #hero .carousel-container {
@@ -465,7 +487,7 @@ body {
 }
 
 #hero h1 {
-  color: #000000;
+  color: rgba(4, 172, 212, 1);;
   margin-bottom: 10px;
   font-size: 4rem;
   font-weight: 700;
@@ -481,8 +503,10 @@ body {
 #hero p {
   width: 80%;
   margin: 0 auto 30px auto;
-  color: rgba(4, 172, 212, 1);
-  font-weight: 600;
+  color:grey;
+  font-weight: 500;
+  font-size: 1.5rem;
+
 }
 
 @media (min-width: 1024px) {
@@ -560,6 +584,7 @@ body {
   color: #fff;
   background: #0077ff;
 }
+
 
 #hero .btn-get-started:hover {
   background: #ffffff;
@@ -805,6 +830,7 @@ body {
   padding: 3rem 0 1rem 0;
   font-weight: 600;
 }
+
 
 .card {
   max-width: 300px;

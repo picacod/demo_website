@@ -148,7 +148,11 @@
     min-height: 100vh;
     padding-top: 10rem;
     padding-bottom: 3rem;
-    background-color: #131313;
+    color: black !important;
+  }
+  .service-content p h4{
+    color: black !important;
+
   }
 
   .heading-tab{

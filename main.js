@@ -1,27 +1,33 @@
 
-let hasFlipped = false; // Track if the box has flipped due to mouse movement
 
-const flipBox = document.querySelector('.flip-box');
 
-// Flip when the mouse moves for the first time
-window.addEventListener('mousemove', function () {
-    if (!hasFlipped) {
-        flipBox.classList.add('expand-flip');
-        window.scrollTo({ top: 50, behavior: 'smooth' }); // Scroll to a specific point after the flip
-        hasFlipped = true; // Prevent further flipping
-    }
-});
+let hasFlipped = false;
 
-// Revert flip when scrolling back to top
 window.addEventListener('scroll', function () {
+    const flipBox = document.querySelector('.flip-box');
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
-    // Reset flip when scrolling back to the top
-    if (scrollTop === 0) {
+    // When the user scrolls past a certain point, flip and shrink the box only once
+    if (scrollTop > 10 && scrollTop < 20 && !hasFlipped) {
         flipBox.classList.remove('expand-flip');
-        hasFlipped = false; // Allow re-flipping after resetting
+    }
+
+    // After flipping and shrinking, expand back and set the flag to prevent further flips
+    if (scrollTop > 50 && !hasFlipped) {
+        flipBox.classList.add('expand-flip');
+        hasFlipped = true; // Set the flag to true after the first flip
+        // Scroll to the top when the back side is shown
+        window.scrollTo({ top: 20, behavior: 'smooth' });
+    }
+
+    // Reset only to back side if flipped, but never flip back to the front
+    if (scrollTop < 20 && !hasFlipped) {
+        flipBox.classList.remove('expand-flip');
     }
 });
+
+
+
 
 
 
